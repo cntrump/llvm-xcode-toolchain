@@ -15,5 +15,13 @@ pushd swig
 ./build-swig.sh
 popd
 
+pushd ncurses
+./build-ncurses.sh
+popd
+
+pushd libedit
+./build-libedit.sh
+popd
+
 "${cur_dir}/checkout-llvm.sh" ${version}
 "${cur_dir}/build-llvm.sh"
