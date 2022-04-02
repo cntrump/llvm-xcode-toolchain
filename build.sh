@@ -24,4 +24,5 @@ pushd libedit
 popd
 
 "${cur_dir}/checkout-llvm.sh" ${version}
-"${cur_dir}/build-llvm.sh"
+"${cur_dir}/build-llvm.sh" ${version}
+
