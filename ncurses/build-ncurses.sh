@@ -2,6 +2,11 @@
 
 set -eux
 
+if [[ -f /usr/local/include/ncurses/ncurses.h && -f /usr/local/lib/libncurses.a ]]; then
+  echo Found libncurses.
+  exit 0
+fi
+
 ver=6.3
 
 [ -d ncurses-${ver} ] && rm -rf ncurses-${ver}

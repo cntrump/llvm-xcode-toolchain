@@ -4,6 +4,10 @@ set -eux
 
 ver=$1
 
+archive() {
+    tar --uid 0 --gid 0 $@
+}
+
 pushd "$(dirname ${0})"
 
 pushd llvm-project
@@ -33,6 +37,7 @@ cmake -S llvm -B build -G Ninja \
     -DCMAKE_ASM_COMPILER=$(which clang) \
     -DCMAKE_C_COMPILER=$(which clang) \
     -DCMAKE_CXX_COMPILER=$(which clang++) \
+    -DCLANG_DEFAULT_LINKER=lld \
     -DLLDB_ENABLE_LIBEDIT=ON \
     -DLLDB_ENABLE_CURSES=ON \
     -DLLDB_ENABLE_LIBXML2=ON \
@@ -51,10 +56,10 @@ ninja -C build install install-xcode-toolchain
 popd
 
 pushd "${install_dir}"
-tar --exclude=Toolchains -cJvf clang+lldb+llvm-${ver}-${arch}-apple-darwin.tar.xz .
+archive --exclude=Toolchains -cJvf clang+lldb+llvm-${ver}-${arch}-apple-darwin.tar.xz *
 
 pushd Toolchains
-tar -cJvf LLVM-${ver}-${arch}.xctoolchain.tar.xz LLVM${ver}.xctoolchain
+archive -cJvf LLVM-${ver}-${arch}.xctoolchain.tar.xz LLVM${ver}.xctoolchain
 popd
 
 popd
