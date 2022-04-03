@@ -48,6 +48,8 @@ cmake -S llvm -B build -G Ninja \
     -DLLVM_INCLUDE_TESTS=OFF \
     -DLLVM_CREATE_XCODE_TOOLCHAIN=ON \
     -DLLVM_ENABLE_LIBCXX=ON \
+    -DLLVM_ENABLE_RTTI=ON \
+    -DLLVM_ENABLE_EH=ON \
     -DLLVM_ENABLE_PROJECTS=${projects}
 
 [ -d "${install_dir}" ] && rm -rf "${install_dir}"
