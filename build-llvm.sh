@@ -33,6 +33,7 @@ cmake -S llvm -B build -G Ninja \
     -DLLVM_PARALLEL_COMPILE_JOBS=${CPU_NUM} \
     -DLLVM_PARALLEL_LINK_JOBS=1 \
     -DCMAKE_INSTALL_PREFIX="${install_dir}" \
+    -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_ASM_COMPILER=$(which clang) \
     -DCMAKE_C_COMPILER=$(which clang) \
@@ -42,6 +43,7 @@ cmake -S llvm -B build -G Ninja \
     -DLLDB_ENABLE_LIBXML2=ON \
     -DLLDB_ENABLE_PYTHON=ON \
     -DPYTHON_EXECUTABLE=$(which python3) \
+    -DPSTL_PARALLEL_BACKEND=tbb \
     -DLLVM_INCLUDE_BENCHMARKS=OFF \
     -DLLVM_INCLUDE_EXAMPLES=OFF \
     -DLLVM_INCLUDE_TESTS=OFF \
