@@ -37,7 +37,6 @@ cmake -S llvm -B build -G Ninja \
     -DCMAKE_ASM_COMPILER=$(which clang) \
     -DCMAKE_C_COMPILER=$(which clang) \
     -DCMAKE_CXX_COMPILER=$(which clang++) \
-    -DCLANG_DEFAULT_LINKER=lld \
     -DLLDB_ENABLE_LIBEDIT=ON \
     -DLLDB_ENABLE_CURSES=ON \
     -DLLDB_ENABLE_LIBXML2=ON \
