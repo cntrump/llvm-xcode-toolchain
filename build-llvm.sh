@@ -4,10 +4,6 @@ set -eux
 
 ver=$1
 
-archive() {
-    tar --uid 0 --gid 0 $@
-}
-
 pushd "$(dirname ${0})"
 
 pushd llvm-project
@@ -26,8 +22,6 @@ projects='clang;clang-tools-extra;compiler-rt;flang;libclc;libcxx;libcxxabi;libu
 CPU_NUM=`sysctl -n hw.physicalcpu`
 [ "${CPU_NUM}" = "" ] && CPU_NUM=2
 CPU_NUM=$((CPU_NUM/2))
-
-arch=$(uname -m)
 
 cmake -S llvm -B build -G Ninja \
     -DLLVM_PARALLEL_COMPILE_JOBS=${CPU_NUM} \
@@ -59,13 +53,8 @@ cmake -S llvm -B build -G Ninja \
 ninja -C build install install-xcode-toolchain
 popd
 
-pushd "${install_dir}"
-archive --exclude=Toolchains -cJvf clang+lldb+llvm-${ver}-${arch}-apple-darwin.tar.xz *
-
-pushd Toolchains
-archive -cJvf LLVM-${ver}-${arch}.xctoolchain.tar.xz LLVM${ver}.xctoolchain
-popd
-
-popd
+./archive.sh "${install_dir}" --exclude=Toolchains -cJvf ../clang+llvm-${ver}-universal-apple-darwin.tar.xz &
+./archive.sh "${install_dir}/Toolchains" -cJvf ../../LLVM-${ver}-universal.xctoolchain.tar.xz &
+wait
 
 popd
