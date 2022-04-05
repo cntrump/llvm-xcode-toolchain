@@ -3,7 +3,7 @@
 set -eux
 
 if [[ -f /usr/local/include/ncurses/ncurses.h && -f /usr/local/lib/libncurses.a ]]; then
-  echo Found libncurses.
+  echo "Found libncurses."
   exit 0
 fi
 

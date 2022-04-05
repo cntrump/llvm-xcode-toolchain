@@ -3,7 +3,7 @@
 set -eux
 
 if [[ -f /usr/local/include/editline/readline.h && -f /usr/local/lib/libedit.a ]]; then
-  echo Found libedit.
+  echo "Found libedit."
   exit 0
 fi
 
