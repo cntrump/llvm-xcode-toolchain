@@ -13,7 +13,10 @@ ver=6.3
 tar xvf ncurses-${ver}.tar.xz
 
 pushd ncurses-${ver}
-CC=clang CXX=clang++ ./configure --without-debug --without-tests
+CC=clang CXX=clang++ \
+CFLAGS="-arch arm64 -arch x86_64 -mmacosx-version-min=10.9" \
+LDFLAGS="-mmacosx-version-min=10.9" \
+./configure --without-debug --without-tests
 make -j
 sudo make install
 popd

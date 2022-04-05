@@ -18,6 +18,8 @@ pushd swig-${swig_version}
 
 export CC=$(which clang)
 export CXX=$(which clang++)
+export CFLAGS="-arch arm64 -arch x86_64 -mmacosx-version-min=10.9"
+export LDFLAGS="-mmacosx-version-min=10.9"
 
 Tools/pcre-build.sh
 
