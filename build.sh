@@ -23,6 +23,10 @@ pushd libedit
 ./build-libedit.sh
 popd
 
+pushd tbb
+./build-tbb.sh
+popd
+
 "${cur_dir}/checkout-llvm.sh" ${version}
 "${cur_dir}/build-llvm.sh" ${version}
 
