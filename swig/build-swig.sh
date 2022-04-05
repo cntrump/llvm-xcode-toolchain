@@ -2,11 +2,6 @@
 
 set -eux
 
-if which swig >& /dev/null; then
-  swig -copyright
-  exit 0
-fi
-
 swig_version=4.0.2
 pcre_version=8.45
 

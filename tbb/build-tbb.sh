@@ -2,11 +2,6 @@
 
 set -eux
 
-if [[ -f /usr/local/include/tbb/tbb.h && -f /usr/local/lib/libtbb.a ]]; then
-  echo "Found tbb."
-  exit 0
-fi
-
 ver=2021.5.0
 [ -d oneTBB-${ver} ] && rm -rf oneTBB-${ver}
 tar xvf oneTBB-${ver}.tar.xz

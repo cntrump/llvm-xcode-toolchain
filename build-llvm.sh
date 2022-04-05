@@ -14,6 +14,9 @@ lldb/scripts/macos-setup-codesign.sh
 install_prefix=/opt
 install_dir=${install_prefix}/llvm/releases/${ver}
 
+[ ! -d ${install_prefix}/llvm/releases ] && sudo mkdir -p ${install_prefix}/llvm/releases
+sudo chown ${USER}:staff ${install_prefix}/llvm/releases
+
 # https://llvm.org/docs/CMake.html
 projects='clang;clang-tools-extra;compiler-rt;flang;libclc;libcxx;libcxxabi;libunwind;lld;lldb;openmp;polly;pstl'
 
