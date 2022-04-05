@@ -13,7 +13,8 @@ tar xvf libedit-${ver}.tar.xz
 
 pushd libedit-${ver}
 CC=clang CXX=clang++ \
-CFLAGS="-arch arm64 -arch x86_64 -mmacosx-version-min=10.9" \
+CFLAGS="-arch arm64 -arch x86_64 -mmacosx-version-min=10.9 -std=gnu11" \
+CXXFLAGS="-arch arm64 -arch x86_64 -mmacosx-version-min=10.9 -std=gnu++14" \
 LDFLAGS="-mmacosx-version-min=10.9" \
 ./configure --disable-shared --disable-examples
 make -j
