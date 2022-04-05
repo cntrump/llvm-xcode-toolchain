@@ -16,12 +16,6 @@ cp pcre-${pcre_version}.tar.bz2 swig-${swig_version}
 
 pushd swig-${swig_version}
 
-export CC=$(which clang)
-export CXX=$(which clang++)
-export CFLAGS="-arch arm64 -arch x86_64 -mmacosx-version-min=10.9 -std=gnu11"
-export CXXFLAGS="-arch arm64 -arch x86_64 -mmacosx-version-min=10.9 -std=gnu++14"
-export LDFLAGS="-mmacosx-version-min=10.9"
-
 Tools/pcre-build.sh
 
 ./configure
