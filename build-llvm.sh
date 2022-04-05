@@ -23,6 +23,8 @@ CPU_NUM=`sysctl -n hw.physicalcpu`
 [ "${CPU_NUM}" = "" ] && CPU_NUM=2
 CPU_NUM=$((CPU_NUM/2))
 
+# oneTBB-2021.5.0/include/oneapi/tbb/version.h: #define TBB_INTERFACE_VERSION 12050
+
 cmake -S llvm -B build -G Ninja \
     -DLLVM_PARALLEL_COMPILE_JOBS=${CPU_NUM} \
     -DLLVM_PARALLEL_LINK_JOBS=1 \
@@ -39,6 +41,7 @@ cmake -S llvm -B build -G Ninja \
     -DLLDB_USE_SYSTEM_DEBUGSERVER=ON \
     -DPYTHON_EXECUTABLE=$(which python3) \
     -DPSTL_PARALLEL_BACKEND=tbb \
+    -DTBB_INTERFACE_VERSION=12050 \
     -DLIBCXX_ENABLE_PARALLEL_ALGORITHMS=ON \
     -DLLVM_INCLUDE_BENCHMARKS=OFF \
     -DLLVM_INCLUDE_EXAMPLES=OFF \
