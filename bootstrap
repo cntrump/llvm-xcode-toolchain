@@ -38,6 +38,10 @@ unset CFLAGS
 unset CXXFLAGS
 unset LDFLAGS
 
+pushd re2c
+./build-re2c.sh
+popd
+
 pushd ninja
 ./build-ninja.sh
 popd
