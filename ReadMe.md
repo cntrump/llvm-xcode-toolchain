@@ -6,6 +6,8 @@ archs: `arm64`, `x86_64`
 
 ## How to build
 
+Required: Xcode 13 with C++20 support
+
 Build dependencies: `cmake`, `ninja`, `swig`, `libedit`, `libncurses`, `libtbb`
 
 ```bash

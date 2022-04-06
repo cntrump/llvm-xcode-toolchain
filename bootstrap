@@ -2,10 +2,12 @@
 
 set -eux
 
+common_flags="-arch arm64 -arch x86_64 -mmacosx-version-min=10.9"
+
 export CC=$(which clang)
 export CXX=$(which clang++)
-export CFLAGS="-arch arm64 -arch x86_64 -mmacosx-version-min=10.9 -std=gnu11"
-export CXXFLAGS="-arch arm64 -arch x86_64 -mmacosx-version-min=10.9 -std=gnu++14"
+export CFLAGS="${common_flags} -std=gnu11"
+export CXXFLAGS="${common_flags} -std=gnu++14"
 export LDFLAGS="-mmacosx-version-min=10.9"
 
 pushd cmake
