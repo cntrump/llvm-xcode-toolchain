@@ -3,6 +3,8 @@
 set -eux
 
 ver=$1
+semver=(${ver//\./ })
+major=${semver[0]}
 
 pushd "$(dirname ${0})"
 
@@ -27,6 +29,12 @@ CPU_NUM=`sysctl -n hw.physicalcpu`
 CPU_NUM=$((CPU_NUM/2))
 
 # oneTBB-2021.5.0/include/oneapi/tbb/version.h: #define TBB_INTERFACE_VERSION 12050
+
+# patch iossim archs
+if [[ $major < 14 ]]; then
+  sed -I -e 's/set(DARWIN_iossim_BUILTIN_ALL_POSSIBLE_ARCHS \${X86} \${X86_64})/set(DARWIN_iossim_BUILTIN_ALL_POSSIBLE_ARCHS \${X86} \${X86_64} arm64)/g' \
+      ./compiler-rt/cmake/builtin-config-ix.cmake
+fi
 
 cmake -S llvm -B build -G Ninja \
     -DLLVM_PARALLEL_COMPILE_JOBS=${CPU_NUM} \
