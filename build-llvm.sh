@@ -78,6 +78,21 @@ cmake -S llvm -B build -G Ninja \
 ninja -C build install install-xcode-toolchain
 popd
 
+py3fwk=/Library/Frameworks/Python3.framework
+xcode_dev=/Applications/Xcode.app/Contents/Developer
+cmdline_dev=/Library/Developer/CommandLineTools
+
+if [ -d ${xcode_dev} ]; then
+  py3fwk=${xcode_dev}/${py3fwk}
+elif [ -d ${cmdline_dev} ]; then
+  py3fwk=${cmdline_dev}/${py3fwk}
+fi
+
+if [ -d ${py3fwk} ]; then
+  cp -r ${py3fwk} "${install_dir}/lib"
+  cp -r ${py3fwk} "${install_dir}/Toolchains/LLVM${ver}.xctoolchain/usr/lib"
+fi
+
 ./archive.sh "${install_dir}" --exclude=Toolchains -cJvf ../clang+llvm-${ver}-universal-apple-darwin.tar.xz &
 ./archive.sh "${install_dir}/Toolchains" -cJvf ../../LLVM-${ver}-universal.xctoolchain.tar.xz &
 wait
