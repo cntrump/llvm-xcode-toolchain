@@ -36,6 +36,16 @@ if [[ $major < 14 ]]; then
       ./compiler-rt/cmake/builtin-config-ix.cmake
 fi
 
+# Remove `armv7k` arch for iOS
+sed -I -e 's/set(ARM32 armv7 armv7k armv7s)/set(ARM32 armv7 armv7s)/g' \
+    ./compiler-rt/cmake/builtin-config-ix.cmake
+
+sed -I -e 's/set(DARWIN_osx_BUILTIN_MIN_VER 10.5)/set(DARWIN_osx_BUILTIN_MIN_VER 10.9)/g' \
+    ./compiler-rt/cmake/builtin-config-ix.cmake
+
+sed -I -e 's/set(DARWIN_ios_BUILTIN_MIN_VER 6.0)/set(DARWIN_ios_BUILTIN_MIN_VER 9.0)/g' \
+    ./compiler-rt/cmake/builtin-config-ix.cmake
+
 cmake -S llvm -B build -G Ninja \
     -DLLVM_PARALLEL_COMPILE_JOBS=${CPU_NUM} \
     -DLLVM_PARALLEL_LINK_JOBS=1 \
