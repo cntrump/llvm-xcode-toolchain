@@ -40,6 +40,7 @@ cmake -S llvm -B build -G Ninja \
     -DLLVM_PARALLEL_COMPILE_JOBS=${CPU_NUM} \
     -DLLVM_PARALLEL_LINK_JOBS=1 \
     -DCMAKE_INSTALL_PREFIX="${install_dir}" \
+    -DCMAKE_OSX_DEPLOYMENT_TARGET=10.13 \
     -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_ASM_COMPILER=$(which clang) \
