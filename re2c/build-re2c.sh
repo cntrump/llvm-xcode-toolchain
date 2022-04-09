@@ -19,7 +19,7 @@ mkdir cmake-build
 pushd cmake-build
 cmake -DCMAKE_C_COMPILER=$(which clang) -DCMAKE_CXX_COMPILER=$(which clang++) \
       -DCMAKE_CXX_STANDARD=14 \
-      -DCMAKE_CXX_OSX_DEPLOYMENT_TARGET_FLAG=10.9 \
+      -DCMAKE_OSX_DEPLOYMENT_TARGET=10.9 \
       -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" \
       -DCMAKE_BUILD_TYPE=Release \
       ..
