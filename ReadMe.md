@@ -63,18 +63,28 @@ Use `xcrun` find SDKROOT correctly:
 ```bash
 # macOS
 clang -isysroot $(xcrun --sdk macosx --show-sdk-path)
+# `xcrun --sdk macosx clang` or `SDKROOT=macosx xcrun clang`
 
 # iOS and simulator
 clang -isysroot $(xcrun --sdk iphoneos --show-sdk-path)
+# `xcrun --sdk iphoneos clang` or `SDKROOT=iphoneos xcrun clang`
+
 clang -isysroot $(xcrun --sdk iphonesimulator --show-sdk-path)
+# `xcrun --sdk iphonesimulator clang` or `SDKROOT=iphonesimulator xcrun clang`
 
 # tvOS and simulator
 clang -isysroot $(xcrun --sdk appletvos --show-sdk-path)
+# `xcrun --sdk appletvos clang` or `SDKROOT=appletvos xcrun clang`
+
 clang -isysroot $(xcrun --sdk appletvsimulator --show-sdk-path)
+# `xcrun --sdk appletvsimulator clang` or `SDKROOT=appletvsimulator xcrun clang`
 
 # watchOS and simulator
 clang -isysroot $(xcrun --sdk watchos --show-sdk-path)
+# `xcrun --sdk watchos clang` or `SDKROOT=watchos xcrun clang`
+
 clang -isysroot $(xcrun --sdk watchsimulator --show-sdk-path)
+# `xcrun --sdk watchsimulator clang` or `SDKROOT=watchsimulator xcrun clang`
 ```
 
 ### How to use pstl
@@ -92,6 +102,21 @@ LLVM_HOME="$(dirname $CXX)/.."
 ${CXX} -target apple-macosx10.14 \
       -arch arm64 -arch x86_64 \
       -isysroot $(xcrun --sdk macosx --show-sdk-path) \
+      -std=gnu++17 -D_LIBCPP_HAS_PARALLEL_ALGORITHMS \
+      -I${LLVM_HOME}/include \
+      -I/usr/local/include \
+      -L/usr/local/lib \
+      -ltbb -lc++ \
+      main.cpp
+```
+
+Or using `xcrun` auto configure environment:
+```bash
+LLVM_HOME="$(dirname $(xcrun --toolchain org.llvm.12.0.0 --find clang))/.."
+
+xcrun --toolchain org.llvm.12.0.0 --sdk macosx \
+      clang -target apple-macosx10.14 \
+      -arch arm64 -arch x86_64 \
       -std=gnu++17 -D_LIBCPP_HAS_PARALLEL_ALGORITHMS \
       -I${LLVM_HOME}/include \
       -I/usr/local/include \
