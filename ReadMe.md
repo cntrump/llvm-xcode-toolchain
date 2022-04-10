@@ -134,6 +134,28 @@ parallel 0.752187 s
 serial   1.53965 s
 ```
 
+## How to build app for Mac Catalyst
+
+Mac Catalyst requried: clang version >= `13`, `-mmaccatalyst-version-min` >= `13.1`.
+
+[[clang][driver][darwin] Add driver support for Mac Catalyst](https://reviews.llvm.org/rG2542c1a5a1306398d73c3c0c5d71cacf7c690093)
+
+```bash
+xcrun --toolchain org.llvm.13.0.0 --sdk macosx \
+      clang -target apple-ios13.1-macabi \
+            -arch arm64 -arch x86_64 \
+            -lc++ -lSystem \
+            main.cc
+```
+
+Mac Catalyst must be signed before running:
+
+Signing identity `lldb_codesign` is created by [macos-setup-codesign.sh](https://github.com/llvm/llvm-project/blob/main/lldb/scripts/macos-setup-codesign.sh)
+
+```bash
+codesign -s lldb_codesign a.out
+```
+
 ## How to build Clang toolchain
 
 Required: Xcode 13 with C++20 support
