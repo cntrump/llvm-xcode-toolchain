@@ -6,6 +6,8 @@ archs: `arm64`, `x86_64`
 
 requried macOS version: `10.13` and higher
 
+latest release: [LLVM Xcode Toolchain](https://github.com/cntrump/llvm-xcode-toolchain/releases)
+
 ## How to install LLVM toolchain
 
 Create `Toolchains` directory if not exists: 
@@ -18,9 +20,9 @@ Copy `LLVM${ver}.xctoolchain` to `Toolchains` directory:
 sudo cp -r LLVM12.0.0.xctoolchain /Library/Developer/Toolchains
 ```
 
-Or extract `LLVM${ver}.xctoolchain.tar.xz` to `Toolchains` directory:
+Or extract `LLVM-${ver}-universal.xctoolchain.tar.xz` to `Toolchains` directory:
 ```bash
-sudo tar -xvf LLVM12.0.0.xctoolchain.tar.xz -C /Library/Developer/Toolchains
+sudo tar -xvf LLVM-12.0.0-universal.xctoolchain.tar.xz -C /Library/Developer/Toolchains
 ```
 
 The format of LLVM toolchain name is: `org.llvm.${ver}`
@@ -79,14 +81,19 @@ clang -isysroot $(xcrun --sdk watchsimulator --show-sdk-path)
 
 Build a [pstl demo](https://mp-force.ziti.uni-heidelberg.de/kmbeutel/pstl-demo) for example:
 
-pstl requried `c++17` and `tbb`:
+`pstl` requried `c++17` and `tbb`.
+
+`tbb` requried macOS 10.14 and higher.
 
 ```bash
-clang -target apple-macosx10.14 \
+CXX="$(xcrun --toolchain org.llvm.12.0.0 --find clang++)"
+LLVM_HOME="$(dirname $CXX)/.."
+
+${CXX} -target apple-macosx10.14 \
       -arch arm64 -arch x86_64 \
       -isysroot $(xcrun --sdk macosx --show-sdk-path) \
       -std=gnu++17 -D_LIBCPP_HAS_PARALLEL_ALGORITHMS \
-      -I/opt/llvm/usr/include \
+      -I${LLVM_HOME}/include \
       -I/usr/local/include \
       -L/usr/local/lib \
       -ltbb -lc++ \
