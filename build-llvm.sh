@@ -32,18 +32,18 @@ CPU_NUM=$((CPU_NUM/2))
 
 # patch iossim archs
 if [[ $major < 14 ]]; then
-  sed -I -e 's/set(DARWIN_iossim_BUILTIN_ALL_POSSIBLE_ARCHS \${X86} \${X86_64})/set(DARWIN_iossim_BUILTIN_ALL_POSSIBLE_ARCHS \${X86} \${X86_64} arm64)/g' \
+  sed -i'.bak' -E 's/set(DARWIN_iossim_BUILTIN_ALL_POSSIBLE_ARCHS \${X86} \${X86_64})/set(DARWIN_iossim_BUILTIN_ALL_POSSIBLE_ARCHS \${X86} \${X86_64} arm64)/g' \
       ./compiler-rt/cmake/builtin-config-ix.cmake
 fi
 
 # Remove `armv7k` arch for iOS
-sed -I -e 's/set(ARM32 armv7 armv7k armv7s)/set(ARM32 armv7 armv7s)/g' \
+sed -i'.bak' -E 's/set(ARM32 armv7 armv7k armv7s)/set(ARM32 armv7 armv7s)/g' \
     ./compiler-rt/cmake/builtin-config-ix.cmake
 
-sed -I -e 's/set(DARWIN_osx_BUILTIN_MIN_VER 10.5)/set(DARWIN_osx_BUILTIN_MIN_VER 10.9)/g' \
+sed -i'.bak' -E 's/set(DARWIN_osx_BUILTIN_MIN_VER 10.5)/set(DARWIN_osx_BUILTIN_MIN_VER 10.9)/g' \
     ./compiler-rt/cmake/builtin-config-ix.cmake
 
-sed -I -e 's/set(DARWIN_ios_BUILTIN_MIN_VER 6.0)/set(DARWIN_ios_BUILTIN_MIN_VER 9.0)/g' \
+sed -i'.bak' -E 's/set(DARWIN_ios_BUILTIN_MIN_VER 6.0)/set(DARWIN_ios_BUILTIN_MIN_VER 9.0)/g' \
     ./compiler-rt/cmake/builtin-config-ix.cmake
 
 cmake -S llvm -B build -G Ninja \
