@@ -22,7 +22,7 @@ sudo chown ${USER}:staff ${install_prefix}/llvm/releases
 # https://llvm.org/docs/CMake.html
 projects='clang;clang-tools-extra;compiler-rt;flang;libclc;libcxx;libcxxabi;libunwind;lld;lldb;openmp;polly;pstl'
 
-# to avoid OOMs or going into swap, permit only one link job per 15GB of RAM available on a 32GB machine, 
+# to avoid OOMs or going into swap, permit only one link job per 15GB of RAM available on a 32GB machine,
 # specify -G Ninja -DLLVM_PARALLEL_LINK_JOBS=2.
 CPU_NUM=`sysctl -n hw.physicalcpu`
 [ "${CPU_NUM}" = "" ] && CPU_NUM=2
@@ -77,7 +77,7 @@ cmake -S llvm -B build -G Ninja \
 ninja -C build install install-xcode-toolchain
 popd
 
-py3fwk=/Library/Frameworks/Python3.framework
+py3fwk=Library/Frameworks/Python3.framework
 xcode_dev=/Applications/Xcode.app/Contents/Developer
 cmdline_dev=/Library/Developer/CommandLineTools
 
@@ -88,8 +88,8 @@ elif [ -d ${cmdline_dev} ]; then
 fi
 
 if [ -d ${py3fwk} ]; then
-  cp -r ${py3fwk} "${install_dir}/lib"
-  cp -r ${py3fwk} "${install_dir}/Toolchains/LLVM${ver}.xctoolchain/usr/lib"
+  cp -a ${py3fwk} "${install_dir}/lib"
+  cp -a ${py3fwk} "${install_dir}/Toolchains/LLVM${ver}.xctoolchain/usr/lib"
 fi
 
 ./archive.sh "${install_dir}" --exclude=Toolchains -cJvf ../clang+llvm-${ver}-universal-apple-darwin.tar.xz &
