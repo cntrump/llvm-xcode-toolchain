@@ -174,4 +174,4 @@ Build clang toolchain:
 
 ## BYW
 
-Since LLVM 15, pre-built `arm64` binaries is available in the [Official Releases Page](https://github.com/llvm/llvm-project/releases).
+Since LLVM 15, pre-built arm64 binaries is available in the [Official Releases Page](https://github.com/llvm/llvm-project/releases).
