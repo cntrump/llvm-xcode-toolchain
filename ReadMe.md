@@ -171,3 +171,7 @@ Build clang toolchain:
 ```bash
 ./build.sh 14.0.0  # build LLVM 14.0.0
 ```
+
+## BYW
+
+Since LLVM 15, pre-built `arm64` binaries is available in the [Official Releases Page](https://github.com/llvm/llvm-project/releases).
