@@ -49,3 +49,7 @@ popd
 pushd tbb
 ./build-tbb.sh
 popd
+
+pushd zstd
+./build-zstd.sh
+popd
