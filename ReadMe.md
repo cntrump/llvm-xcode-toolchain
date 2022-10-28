@@ -156,11 +156,21 @@ Signing identity `lldb_codesign` is created by [macos-setup-codesign.sh](https:/
 codesign -s lldb_codesign a.out
 ```
 
-## How to build Clang toolchain
+## How to build LLVM toolchain
 
 Required: Xcode 13 with C++20 support
 
-Build dependencies: `cmake`, `ninja`, `swig`, `libedit`, `libncurses`, `libtbb`
+Install `CMake` and `Ninja`:
+
+Using [Macports](https://www.macports.org/):
+
+```bash
+sudo port install cmake ninja
+```
+
+My Macports installed at `/opt/local`, so I added `-DCMAKE_IGNORE_PREFIX_PATH="/opt/local"` in `build-llvm.sh`.
+
+Build dependencies: `swig`, `libedit`, `libncurses`, `libtbb`, `zstd`
 
 ```bash
 ./bootstrap
