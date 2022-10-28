@@ -9,7 +9,7 @@ tar xvf libedit-${ver}.tar.xz
 pushd libedit-${ver}
 ./configure --disable-shared --disable-examples
 make -j
-sudo make install
+sudo make install-exec
 popd
 
 rm -rf libedit-${ver}

@@ -8,7 +8,7 @@ ver=6.3
 tar xvf ncurses-${ver}.tar.xz
 
 pushd ncurses-${ver}
-./configure --without-debug --without-tests
+./configure --without-progs --without-manpages --without-tack --without-debug --without-tests
 make -j
 sudo make install
 popd
