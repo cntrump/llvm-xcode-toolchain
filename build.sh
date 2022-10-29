@@ -11,6 +11,6 @@ fi
 
 git clean -dfx
 
+./bootstrap
 ./checkout-llvm.sh ${version}
 ./build-llvm.sh ${version}
-

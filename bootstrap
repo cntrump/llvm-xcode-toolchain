@@ -2,10 +2,15 @@
 
 set -eux
 
+pushd "$(dirname ${0})"
+
+install_prefix=$(pwd)/build_deps/local
+export install_prefix
+
 common_flags="-arch arm64 -arch x86_64 -mmacosx-version-min=10.9"
 
-export CC=$(which clang)
-export CXX=$(which clang++)
+export CC="xcrun --sdk macosx clang"
+export CXX="xcrun --sdk macosx clang++"
 export CFLAGS="${common_flags} -std=gnu11"
 export CXXFLAGS="${common_flags} -std=gnu++14"
 export LDFLAGS="-mmacosx-version-min=10.9"
@@ -40,4 +45,10 @@ popd
 
 pushd zstd
 ./build-zstd.sh
+popd
+
+export -n install_prefix
+
+unset install_prefix
+
 popd

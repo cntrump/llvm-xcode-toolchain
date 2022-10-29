@@ -19,8 +19,10 @@ pushd build/cmake
 mkdir cmake-build
 
 pushd cmake-build
-cmake -DCMAKE_C_COMPILER=$(xcrun --find clang) -DCMAKE_CXX_COMPILER=$(xcrun --find clang++) \
+cmake -G Ninja \
+      -DCMAKE_C_COMPILER=$(xcrun --find clang) -DCMAKE_CXX_COMPILER=$(xcrun --find clang++) \
       -DCMAKE_CXX_STANDARD=14 \
+      -DCMAKE_OSX_SYSROOT="macosx" \
       -DCMAKE_OSX_DEPLOYMENT_TARGET=10.9 \
       -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" \
       -DZSTD_BUILD_STATIC=ON \
@@ -28,9 +30,10 @@ cmake -DCMAKE_C_COMPILER=$(xcrun --find clang) -DCMAKE_CXX_COMPILER=$(xcrun --fi
       -DZSTD_BUILD_PROGRAMS=OFF \
       -DZSTD_BUILD_SHARED=OFF \
       -DCMAKE_BUILD_TYPE=Release \
+      -DCMAKE_INSTALL_PREFIX="${install_prefix}" \
       ..
-make -j
-sudo make install
+ninja
+sudo ninja install
 popd
 
 popd

@@ -8,16 +8,16 @@ major=${semver[0]}
 
 pushd "$(dirname ${0})"
 
+deps_prefix="$(pwd)/build_deps/local"
+
+install_prefix="$(pwd)/build_llvm"
+install_dir="${install_prefix}/releases/${ver}"
+[ ! -d "${install_prefix}/releases" ] && mkdir -p "${install_prefix}/releases"
+
 pushd llvm-project
 lldb/scripts/macos-setup-codesign.sh
 
 [ -d build ] && rm -rf build
-
-install_prefix=/opt
-install_dir=${install_prefix}/llvm/releases/${ver}
-
-[ ! -d ${install_prefix}/llvm/releases ] && sudo mkdir -p ${install_prefix}/llvm/releases
-sudo chown ${USER}:staff ${install_prefix}/llvm/releases
 
 # https://llvm.org/docs/CMake.html
 projects='clang;clang-tools-extra;compiler-rt;flang;libclc;libcxx;libcxxabi;libunwind;lld;lldb;openmp;polly;pstl'
@@ -49,7 +49,8 @@ sed -i'.bak' -E 's/set(DARWIN_ios_BUILTIN_MIN_VER 6.0)/set(DARWIN_ios_BUILTIN_MI
 cmake -S llvm -B build -G Ninja \
     -DLLVM_PARALLEL_COMPILE_JOBS=${CPU_NUM} \
     -DLLVM_PARALLEL_LINK_JOBS=1 \
-    -DCMAKE_IGNORE_PREFIX_PATH="/opt/local" \
+    -DCMAKE_PREFIX_PATH="${deps_prefix}" \
+    -DCMAKE_IGNORE_PREFIX_PATH="/usr/local;/opt/local" \
     -DCMAKE_INSTALL_PREFIX="${install_dir}" \
     -DCMAKE_OSX_DEPLOYMENT_TARGET=10.13 \
     -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" \
