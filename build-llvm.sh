@@ -60,6 +60,7 @@ cmake -S llvm -B build -G Ninja \
     -DCMAKE_C_COMPILER=$(xcrun --find clang) \
     -DCMAKE_CXX_COMPILER=$(xcrun --find clang++) \
     -DPython3_EXECUTABLE=$(xcrun --find python3) \
+    -DCURSES_NEED_NCURSES=ON \
     -DLLDB_ENABLE_LIBEDIT=ON \
     -DLLDB_ENABLE_CURSES=ON \
     -DLLDB_ENABLE_LIBXML2=ON \
@@ -74,6 +75,7 @@ cmake -S llvm -B build -G Ninja \
     -DLLVM_ENABLE_LIBCXX=ON \
     -DLLVM_ENABLE_RTTI=ON \
     -DLLVM_ENABLE_EH=ON \
+    -DLLVM_ENABLE_TERMINFO=ON \
     -DLLVM_ENABLE_PROJECTS=${projects}
 
 [ -d "${install_dir}" ] && rm -rf "${install_dir}"
