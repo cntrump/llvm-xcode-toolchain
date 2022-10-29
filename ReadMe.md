@@ -168,6 +168,12 @@ Using [Macports](https://www.macports.org/):
 sudo port install cmake ninja
 ```
 
+Using [Brew](https://brew.sh/):
+
+```bash
+brew install cmake ninja
+```
+
 My Macports installed at `/opt/local`, so I added `-DCMAKE_IGNORE_PREFIX_PATH="/opt/local"` in `build-llvm.sh`.
 
 Build dependencies: `swig`, `libedit`, `libncurses`, `libtbb`, `zstd`
