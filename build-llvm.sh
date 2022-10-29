@@ -2,9 +2,6 @@
 
 set -eux
 
-PATH=${install_prefix}/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin
-export PATH
-
 ver=$1
 semver=(${ver//\./ })
 major=${semver[0]}
@@ -12,6 +9,7 @@ major=${semver[0]}
 pushd "$(dirname ${0})"
 
 deps_prefix="$(pwd)/build_deps/local"
+export PATH=${deps_prefix}/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin
 
 install_prefix="$(pwd)/build_llvm"
 install_dir="${install_prefix}/releases/${ver}"

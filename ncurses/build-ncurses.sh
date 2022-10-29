@@ -8,10 +8,15 @@ ver=6.3
 tar xvf ncurses-${ver}.tar.xz
 
 pushd ncurses-${ver}
-./configure --prefix="${install_prefix}" --without-progs --without-manpages --without-tack --without-debug --without-tests
+./configure --prefix="${install_prefix}" \
+            --without-progs \
+            --without-manpages \
+            --without-tack \
+            --without-debug \
+            --without-tests \
+            --disable-db-install
 make -j
 make install
 popd
 
 rm -rf ncurses-${ver}
-

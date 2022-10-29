@@ -26,7 +26,7 @@ cmake -G Ninja \
       -DCMAKE_BUILD_TYPE=Release \
       -DCMAKE_INSTALL_PREFIX="${install_prefix}" \
       ..
-ninja -j
+ninja
 ninja install
 popd
 popd
