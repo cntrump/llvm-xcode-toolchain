@@ -2,18 +2,15 @@
 
 set -eux
 
-ver=v1.11.1
+ver=1.11.1
 
-if [ ! -d ninja ]; then
-  git clone https://github.com/ninja-build/ninja.git
+if [ -d ninja-${ver} ]; then
+  rm -rf ninja-${ver}
 fi
 
-pushd ninja
-git clean -fdx
-git reset --hard
-git checkout master
-git pull
-git checkout tags/${ver}
+tar -xvf ninja-${ver}.tar.xz
+
+pushd ninja-${ver}
 
 mkdir build
 
@@ -31,3 +28,5 @@ make install
 popd
 
 popd
+
+rm -rf ninja-${ver}

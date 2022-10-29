@@ -4,16 +4,13 @@ set -eux
 
 ver=3.0
 
-if [ ! -d re2c ]; then
-  git clone https://github.com/skvadrik/re2c.git
+if [ -d re2c-${ver} ]; then
+  rm -rf re2c-${ver}
 fi
 
-pushd re2c
-git clean -fdx
-git reset --hard
-git checkout master
-git pull
-git checkout tags/${ver}
+tar -xvf re2c-${ver}.tar.xz
+
+pushd re2c-${ver}
 
 mkdir cmake-build
 pushd cmake-build
@@ -30,3 +27,5 @@ ninja
 ninja install
 popd
 popd
+
+rm -rf re2c-${ver}

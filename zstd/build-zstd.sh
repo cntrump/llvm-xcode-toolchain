@@ -2,18 +2,15 @@
 
 set -eux
 
-ver=v1.5.2
+ver=1.5.2
 
-if [ ! -d zstd ]; then
-  git clone https://github.com/facebook/zstd.git
+if [ -d zstd-${ver} ]; then
+  rm -rf zstd-${ver}
 fi
 
-pushd zstd
-git clean -fdx
-git reset --hard
-git checkout master
-git pull
-git checkout tags/${ver}
+tar -xvf zstd-${ver}.tar.xz
+
+pushd zstd-${ver}
 
 pushd build/cmake
 mkdir cmake-build
@@ -38,3 +35,5 @@ popd
 
 popd
 popd
+
+rm -rf zstd-${ver}
