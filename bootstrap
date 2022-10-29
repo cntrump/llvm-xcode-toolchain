@@ -15,6 +15,18 @@ export CFLAGS="${common_flags} -std=gnu11"
 export CXXFLAGS="${common_flags} -std=gnu++14"
 export LDFLAGS="-mmacosx-version-min=10.9"
 
+pushd cmake
+./build-cmake.sh
+popd
+
+pushd ninja
+./build-ninja.sh
+popd
+
+pushd re2c
+./build-re2c.sh
+popd
+
 pushd swig
 ./build-swig.sh
 popd

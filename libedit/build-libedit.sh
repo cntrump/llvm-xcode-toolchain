@@ -7,9 +7,9 @@ ver=20210910-3.1
 tar xvf libedit-${ver}.tar.xz
 
 pushd libedit-${ver}
-./configure --prefix=${install_prefix} --disable-shared --disable-examples
+./configure --prefix="${install_prefix}" --disable-shared --disable-examples
 make -j
-sudo make install-exec
+make install-exec
 popd
 
 rm -rf libedit-${ver}

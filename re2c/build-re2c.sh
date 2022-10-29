@@ -17,13 +17,16 @@ git checkout tags/${ver}
 
 mkdir cmake-build
 pushd cmake-build
-cmake -DCMAKE_C_COMPILER=$(which clang) -DCMAKE_CXX_COMPILER=$(which clang++) \
+cmake -G Ninja \
+      -DCMAKE_C_COMPILER=$(which clang) -DCMAKE_CXX_COMPILER=$(which clang++) \
       -DCMAKE_CXX_STANDARD=14 \
+      -DCMAKE_OSX_SYSROOT="macosx" \
       -DCMAKE_OSX_DEPLOYMENT_TARGET=10.9 \
       -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" \
       -DCMAKE_BUILD_TYPE=Release \
+      -DCMAKE_INSTALL_PREFIX="${install_prefix}" \
       ..
-make -j
-sudo make install
+ninja -j
+ninja install
 popd
 popd

@@ -13,9 +13,9 @@ pushd swig-${swig_version}
 
 Tools/pcre-build.sh
 
-./configure --prefix=${install_prefix}
+./configure --prefix="${install_prefix}"
 make -j
-sudo make install
+make install
 
 popd
 

@@ -2,7 +2,7 @@
 
 set -eux
 
-ver=v1.10.2
+ver=v1.11.1
 
 if [ ! -d ninja ]; then
   git clone https://github.com/ninja-build/ninja.git
@@ -20,12 +20,14 @@ mkdir build
 pushd build
 cmake -DCMAKE_C_COMPILER=$(which clang) -DCMAKE_CXX_COMPILER=$(which clang++) \
       -DCMAKE_CXX_STANDARD=14 \
+      -DCMAKE_OSX_SYSROOT="macosx" \
       -DCMAKE_OSX_DEPLOYMENT_TARGET=10.9 \
       -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" \
       -DCMAKE_BUILD_TYPE=Release \
+      -DCMAKE_INSTALL_PREFIX="${install_prefix}" \
       ..
 make -j
-sudo make install
+make install
 popd
 
 popd

@@ -2,6 +2,9 @@
 
 set -eux
 
+PATH=${install_prefix}/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin
+export PATH
+
 ver=$1
 semver=(${ver//\./ })
 major=${semver[0]}

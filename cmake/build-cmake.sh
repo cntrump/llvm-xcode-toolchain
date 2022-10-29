@@ -2,7 +2,7 @@
 
 set -eux
 
-ver=v3.23.0
+ver=v3.23.4
 
 if [ ! -d cmake ]; then
   git clone https://github.com/Kitware/CMake.git cmake
@@ -19,7 +19,7 @@ CPU_NUM=`sysctl -n hw.physicalcpu`
 [ "${CPU_NUM}" = "" ] && CPU_NUM=2
 CPU_NUM=$((CPU_NUM/2))
 
-./bootstrap --parallel=${CPU_NUM}
+./bootstrap --prefix="${install_prefix}" --parallel=${CPU_NUM}
 make -j ${CPU_NUM}
-sudo make install
+make install
 popd

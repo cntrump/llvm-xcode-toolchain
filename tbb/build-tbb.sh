@@ -25,7 +25,7 @@ cmake -G Ninja \
       -DCMAKE_INSTALL_PREFIX="${install_prefix}" \
       ..
 ninja
-sudo ninja install
+ninja install
 popd
 
 popd
