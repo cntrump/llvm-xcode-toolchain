@@ -3,6 +3,11 @@
 set -eux
 
 ver=20210910-3.1
+
+pushd "$(dirname ${0})"
+path=$(pwd)
+trap 'rm -rf "${path}/libedit-${ver}"' INT TERM HUP EXIT
+
 [ -d libedit-${ver} ] && rm -rf libedit-${ver}
 tar xvf libedit-${ver}.tar.xz
 
@@ -12,5 +17,4 @@ make -j
 make install-exec
 popd
 
-rm -rf libedit-${ver}
-
+popd

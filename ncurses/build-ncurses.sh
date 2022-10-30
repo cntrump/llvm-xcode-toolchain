@@ -4,6 +4,10 @@ set -eux
 
 ver=6.3
 
+pushd "$(dirname ${0})"
+path=$(pwd)
+trap 'rm -rf "${path}/ncurses-${ver}"' INT TERM HUP EXIT
+
 [ -d ncurses-${ver} ] && rm -rf ncurses-${ver}
 tar xvf ncurses-${ver}.tar.xz
 
@@ -19,4 +23,4 @@ make -j
 make install
 popd
 
-rm -rf ncurses-${ver}
+popd

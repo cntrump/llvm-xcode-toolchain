@@ -4,9 +4,11 @@ set -eux
 
 ver=1.11.1
 
-if [ -d ninja-${ver} ]; then
-  rm -rf ninja-${ver}
-fi
+pushd "$(dirname ${0})"
+path=$(pwd)
+trap 'rm -rf "${path}/ninja-${ver}"' INT TERM HUP EXIT
+
+[ -d ninja-${ver} ] && rm -rf ninja-${ver}
 
 tar -xvf ninja-${ver}.tar.xz
 
@@ -29,4 +31,4 @@ popd
 
 popd
 
-rm -rf ninja-${ver}
+popd

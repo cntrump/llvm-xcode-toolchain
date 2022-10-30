@@ -4,9 +4,11 @@ set -eux
 
 ver=3.23.4
 
-if [ -d CMake-${ver} ]; then
-  rm -rf CMake-${ver}
-fi
+pushd "$(dirname ${0})"
+path=$(pwd)
+trap 'rm -rf "${path}/CMake-${ver}"' INT TERM HUP EXIT
+
+[ -d CMake-${ver} ] && rm -rf CMake-${ver}
 
 tar -xvf CMake-${ver}.tar.xz
 
@@ -18,4 +20,4 @@ make -j
 make install
 popd
 
-rm -rf CMake-${ver}
+popd

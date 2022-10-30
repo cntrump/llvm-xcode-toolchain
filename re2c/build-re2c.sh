@@ -4,9 +4,11 @@ set -eux
 
 ver=3.0
 
-if [ -d re2c-${ver} ]; then
-  rm -rf re2c-${ver}
-fi
+pushd "$(dirname ${0})"
+path=$(pwd)
+trap 'rm -rf "${path}/re2c-${ver}"' INT TERM HUP EXIT
+
+[ -d re2c-${ver} ] && rm -rf re2c-${ver}
 
 tar -xvf re2c-${ver}.tar.xz
 
@@ -28,4 +30,4 @@ ninja install
 popd
 popd
 
-rm -rf re2c-${ver}
+popd

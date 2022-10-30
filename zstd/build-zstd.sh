@@ -4,9 +4,11 @@ set -eux
 
 ver=1.5.2
 
-if [ -d zstd-${ver} ]; then
-  rm -rf zstd-${ver}
-fi
+pushd "$(dirname ${0})"
+path=$(pwd)
+trap 'rm -rf "${path}/zstd-${ver}"' INT TERM HUP EXIT
+
+[ -d zstd-${ver} ] && rm -rf zstd-${ver}
 
 tar -xvf zstd-${ver}.tar.xz
 
@@ -36,4 +38,4 @@ popd
 popd
 popd
 
-rm -rf zstd-${ver}
+popd

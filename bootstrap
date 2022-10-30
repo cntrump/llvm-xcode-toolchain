@@ -3,8 +3,8 @@
 set -eux
 
 pushd "$(dirname ${0})"
-
-trap 'rm -rf "$(pwd)/build_deps"' INT TERM HUP
+path=$(pwd)
+trap 'rm -rf "${path}/build_deps"' INT TERM HUP
 
 export install_prefix=$(pwd)/build_deps/local
 if [[ -d ${install_prefix} ]]; then

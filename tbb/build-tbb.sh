@@ -3,6 +3,11 @@
 set -eux
 
 ver=2021.5.0
+
+pushd "$(dirname ${0})"
+path=$(pwd)
+trap 'rm -rf "${path}/oneTBB-${ver}"' INT TERM HUP EXIT
+
 [ -d oneTBB-${ver} ] && rm -rf oneTBB-${ver}
 tar xvf oneTBB-${ver}.tar.xz
 
@@ -30,5 +35,4 @@ popd
 
 popd
 
-rm -rf oneTBB-${ver}
-
+popd
