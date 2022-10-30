@@ -9,8 +9,6 @@ if [ -z "${version}" ]; then
   exit -1
 fi
 
-git clean -dfx
-
 ./bootstrap
 ./checkout-llvm.sh ${version}
 ./build-llvm.sh ${version}

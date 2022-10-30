@@ -12,11 +12,9 @@ tar -xvf CMake-${ver}.tar.xz
 
 pushd CMake-${ver}
 CPU_NUM=`sysctl -n hw.physicalcpu`
-[ "${CPU_NUM}" = "" ] && CPU_NUM=2
-CPU_NUM=$((CPU_NUM/2))
 
 ./bootstrap --prefix="${install_prefix}" --parallel=${CPU_NUM}
-make -j ${CPU_NUM}
+make -j
 make install
 popd
 

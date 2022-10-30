@@ -48,7 +48,6 @@ sed -i'.bak' -E 's/set(DARWIN_ios_BUILTIN_MIN_VER 6.0)/set(DARWIN_ios_BUILTIN_MI
     ./compiler-rt/cmake/builtin-config-ix.cmake
 
 cmake -S llvm -B build -G Ninja \
-    -DLLVM_PARALLEL_COMPILE_JOBS=${CPU_NUM} \
     -DLLVM_PARALLEL_LINK_JOBS=1 \
     -DCMAKE_PREFIX_PATH="${deps_prefix}" \
     -DCMAKE_IGNORE_PREFIX_PATH="/usr/local;/opt/local" \
