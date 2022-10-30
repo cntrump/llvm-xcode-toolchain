@@ -18,16 +18,14 @@ install_dir="${install_prefix}/releases/${ver}"
 pushd llvm-project
 lldb/scripts/macos-setup-codesign.sh
 
-[ -d build ] && rm -rf build
-
 # https://llvm.org/docs/CMake.html
-projects='clang;clang-tools-extra;compiler-rt;flang;libclc;libcxx;libcxxabi;libunwind;lld;lldb;openmp;polly;pstl'
-
 # to avoid OOMs or going into swap, permit only one link job per 15GB of RAM available on a 32GB machine,
 # specify -G Ninja -DLLVM_PARALLEL_LINK_JOBS=2.
 CPU_NUM=`sysctl -n hw.physicalcpu`
 [ "${CPU_NUM}" = "" ] && CPU_NUM=2
 CPU_NUM=$((CPU_NUM/2))
+projects='bolt;clang;clang-tools-extra;cross-project-tests;libclc;lld;lldb;mlir;polly;flang'
+runtimes='libc;libunwind;libcxxabi;pstl;libcxx;compiler-rt;openmp'
 
 # oneTBB-2021.5.0/include/oneapi/tbb/version.h: #define TBB_INTERFACE_VERSION 12050
 
@@ -48,7 +46,7 @@ sed -i'.bak' -E 's/set(DARWIN_ios_BUILTIN_MIN_VER 6.0)/set(DARWIN_ios_BUILTIN_MI
     ./compiler-rt/cmake/builtin-config-ix.cmake
 
 cmake -S llvm -B build -G Ninja \
-    -DLLVM_PARALLEL_LINK_JOBS=1 \
+    -DLLVM_PARALLEL_LINK_JOBS=1 -DLLVM_PARALLEL_COMPILE_JOBS=${CPU_NUM} \
     -DCMAKE_PREFIX_PATH="${deps_prefix}" \
     -DCMAKE_IGNORE_PREFIX_PATH="/usr/local;/opt/local" \
     -DCMAKE_INSTALL_PREFIX="${install_dir}" \
@@ -75,11 +73,12 @@ cmake -S llvm -B build -G Ninja \
     -DLLVM_ENABLE_RTTI=ON \
     -DLLVM_ENABLE_EH=ON \
     -DLLVM_ENABLE_TERMINFO=ON \
-    -DLLVM_ENABLE_PROJECTS=${projects}
+    -DLLVM_ENABLE_PROJECTS=${projects} \
+    -DLLVM_ENABLE_RUNTIMES=${runtimes}
 
 [ -d "${install_dir}" ] && rm -rf "${install_dir}"
 
-ninja -C build install install-xcode-toolchain
+ninja -C build -j ${CPU_NUM} install install-xcode-toolchain
 popd
 
 py3fwk=Library/Frameworks/Python3.framework
