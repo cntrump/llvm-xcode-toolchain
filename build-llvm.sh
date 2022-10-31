@@ -73,8 +73,7 @@ cmake -S llvm -B build -G Ninja \
     -DLLVM_ENABLE_RTTI=ON \
     -DLLVM_ENABLE_EH=ON \
     -DLLVM_ENABLE_TERMINFO=ON \
-    -DLLVM_ENABLE_PROJECTS=${projects} \
-    -DLLVM_ENABLE_RUNTIMES=${runtimes}
+    -DLLVM_ENABLE_PROJECTS="${projects};${runtimes}"
 
 [ -d "${install_dir}" ] && rm -rf "${install_dir}"
 
