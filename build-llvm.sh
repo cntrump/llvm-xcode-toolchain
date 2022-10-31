@@ -24,8 +24,8 @@ lldb/scripts/macos-setup-codesign.sh
 CPU_NUM=`sysctl -n hw.physicalcpu`
 [ "${CPU_NUM}" = "" ] && CPU_NUM=2
 CPU_NUM=$((CPU_NUM/2))
-projects='bolt;clang;clang-tools-extra;cross-project-tests;libclc;lld;lldb;mlir;polly;flang'
-runtimes='libc;libunwind;libcxxabi;pstl;libcxx;compiler-rt;openmp'
+projects='bolt;clang;clang-tools-extra;libclc;lld;lldb;mlir;polly;flang'
+runtimes='libunwind;libcxxabi;pstl;libcxx;compiler-rt;openmp'
 
 # oneTBB-2021.5.0/include/oneapi/tbb/version.h: #define TBB_INTERFACE_VERSION 12050
 
