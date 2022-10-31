@@ -6,7 +6,7 @@ pushd "$(dirname ${0})"
 path=$(pwd)
 trap 'rm -rf "${path}/build_deps"' INT TERM HUP
 
-export install_prefix=$(pwd)/build_deps/local
+export install_prefix=$(pwd)/build/deps
 if [[ -d ${install_prefix} ]]; then
   exit 0
 fi

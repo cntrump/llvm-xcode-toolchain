@@ -8,10 +8,10 @@ major=${semver[0]}
 
 pushd "$(dirname ${0})"
 
-deps_prefix="$(pwd)/build_deps/local"
+deps_prefix="$(pwd)/build/deps"
 export PATH=${deps_prefix}/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin
 
-install_prefix="$(pwd)/build_llvm"
+install_prefix="$(pwd)/build/llvm"
 install_dir="${install_prefix}/releases/${ver}"
 [ ! -d "${install_prefix}/releases" ] && mkdir -p "${install_prefix}/releases"
 
@@ -45,7 +45,7 @@ sed -i'.bak' -E 's/set(DARWIN_osx_BUILTIN_MIN_VER 10.5)/set(DARWIN_osx_BUILTIN_M
 sed -i'.bak' -E 's/set(DARWIN_ios_BUILTIN_MIN_VER 6.0)/set(DARWIN_ios_BUILTIN_MIN_VER 9.0)/g' \
     ./compiler-rt/cmake/builtin-config-ix.cmake
 
-cmake -S llvm -B build -G Ninja \
+"${deps_prefix}/bin/cmake" -S llvm -B build -G Ninja \
     -DLLVM_PARALLEL_LINK_JOBS=1 -DLLVM_PARALLEL_COMPILE_JOBS=${CPU_NUM} \
     -DCMAKE_PREFIX_PATH="${deps_prefix}" \
     -DCMAKE_IGNORE_PREFIX_PATH="/usr/local;/opt/local" \
@@ -77,7 +77,7 @@ cmake -S llvm -B build -G Ninja \
 
 [ -d "${install_dir}" ] && rm -rf "${install_dir}"
 
-ninja -C build -j ${CPU_NUM} install install-xcode-toolchain
+"${deps_prefix}/bin/ninja" -C build -j ${CPU_NUM} install install-xcode-toolchain
 popd
 
 py3fwk=Library/Frameworks/Python3.framework
