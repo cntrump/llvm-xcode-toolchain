@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+if [[ "${XCTOOLCHAIN}" = "" ]]; then
+  XCTOOLCHAIN=XcodeDefault
+fi
+
+export XCTOOLCHAIN
+
 set -eux
 
 pushd "$(dirname ${0})"
@@ -13,27 +19,14 @@ fi
 
 common_flags="-arch arm64 -arch x86_64 -mmacosx-version-min=10.9"
 
-export CC="xcrun --sdk macosx clang"
-export CXX="xcrun --sdk macosx clang++"
+export CC="xcrun --toolchain ${XCTOOLCHAIN} --sdk macosx clang"
+export CXX="xcrun --toolchain ${XCTOOLCHAIN} --sdk macosx clang++"
+export CPP="xcrun --toolchain ${XCTOOLCHAIN} --sdk macosx cpp"
 export CFLAGS="${common_flags} -std=gnu11"
 export CXXFLAGS="${common_flags} -std=gnu++14"
 export LDFLAGS="-mmacosx-version-min=10.9"
 
 export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin
-
-pushd cmake
-./build-cmake.sh
-popd
-
-pushd re2c
-./build-re2c.sh
-popd
-
-export PATH=${install_prefix}/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin
-
-pushd ninja
-./build-ninja.sh
-popd
 
 pushd swig
 ./build-swig.sh
@@ -47,17 +40,33 @@ pushd libedit
 ./build-libedit.sh
 popd
 
+pushd cmake
+./build-cmake.sh
+popd
+
 export -n CC
 export -n CXX
+export -n CPP
 export -n CFLAGS
 export -n CXXFLAGS
 export -n LDFLAGS
 
 unset CC
 unset CXX
+unset CPP
 unset CFLAGS
 unset CXXFLAGS
 unset LDFLAGS
+
+export PATH=${install_prefix}/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin
+
+pushd re2c
+./build-re2c.sh
+popd
+
+pushd ninja
+./build-ninja.sh
+popd
 
 pushd tbb
 ./build-tbb.sh
@@ -72,3 +81,6 @@ export -n install_prefix
 unset install_prefix
 
 popd
+
+export -n XCTOOLCHAIN
+unset XCTOOLCHAIN

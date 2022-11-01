@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+if [[ "${XCTOOLCHAIN}" = "" ]]; then
+  XCTOOLCHAIN=XcodeDefault
+fi
+
 set -eux
 
 ver=$1
@@ -53,10 +57,10 @@ sed -i'.bak' -E 's/set(DARWIN_ios_BUILTIN_MIN_VER 6.0)/set(DARWIN_ios_BUILTIN_MI
     -DCMAKE_OSX_DEPLOYMENT_TARGET=10.13 \
     -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" \
     -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_ASM_COMPILER=$(xcrun --find clang) \
-    -DCMAKE_C_COMPILER=$(xcrun --find clang) \
-    -DCMAKE_CXX_COMPILER=$(xcrun --find clang++) \
-    -DPython3_EXECUTABLE=$(xcrun --find python3) \
+    -DCMAKE_ASM_COMPILER=$(xcrun --toolchain ${XCTOOLCHAIN} --find clang) \
+    -DCMAKE_C_COMPILER=$(xcrun --toolchain ${XCTOOLCHAIN} --find clang) \
+    -DCMAKE_CXX_COMPILER=$(xcrun --toolchain ${XCTOOLCHAIN} --find clang++) \
+    -DPython3_EXECUTABLE=$(xcrun --toolchain ${XCTOOLCHAIN} --find python3) \
     -DCURSES_NEED_NCURSES=ON \
     -DLLDB_ENABLE_LIBEDIT=ON \
     -DLLDB_ENABLE_CURSES=ON \

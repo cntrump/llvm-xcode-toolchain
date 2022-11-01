@@ -14,7 +14,8 @@ tar xvf oneTBB-${ver}.tar.xz
 pushd oneTBB-${ver}
 
 "${install_prefix}/bin/cmake" -S . -B cmake-build.noindex -G Ninja \
-      -DCMAKE_C_COMPILER=$(xcrun --find clang) -DCMAKE_CXX_COMPILER=$(xcrun --find clang++) \
+      -DCMAKE_C_COMPILER=$(xcrun --toolchain ${XCTOOLCHAIN} --find clang) \
+      -DCMAKE_CXX_COMPILER=$(xcrun --toolchain ${XCTOOLCHAIN} --find clang++) \
       -DTBB_TEST=OFF \
       -DTBB_EXAMPLES=OFF \
       -DTBB_BENCH=OFF \

@@ -15,7 +15,8 @@ tar -xvf zstd-${ver}.tar.xz
 pushd zstd-${ver}
 
 "${install_prefix}/bin/cmake" -S build/cmake -B cmake-build.noindex -G Ninja \
-      -DCMAKE_C_COMPILER=$(xcrun --find clang) -DCMAKE_CXX_COMPILER=$(xcrun --find clang++) \
+      -DCMAKE_C_COMPILER=$(xcrun --toolchain ${XCTOOLCHAIN} --find clang) \
+      -DCMAKE_CXX_COMPILER=$(xcrun --toolchain ${XCTOOLCHAIN} --find clang++) \
       -DCMAKE_CXX_STANDARD=14 -DCMAKE_CXX_EXTENSIONS=ON \
       -DCMAKE_OSX_SYSROOT="macosx" \
       -DCMAKE_OSX_DEPLOYMENT_TARGET=10.9 \
