@@ -13,8 +13,8 @@ path=$(pwd)
 trap 'rm -rf "${path}/build_deps"' INT TERM HUP
 
 export install_prefix=$(pwd)/build/deps
-if [[ -d ${install_prefix} ]]; then
-  exit 0
+if [[ -d "${install_prefix}" ]]; then
+  rm -rf "${install_prefix}"
 fi
 
 common_flags="-arch arm64 -arch x86_64 -mmacosx-version-min=10.9"
