@@ -22,8 +22,8 @@ lldb/scripts/macos-setup-codesign.sh
 # to avoid OOMs or going into swap, permit only one link job per 15GB of RAM available on a 32GB machine,
 # specify -G Ninja -DLLVM_PARALLEL_LINK_JOBS=2.
 CPU_NUM=`sysctl -n hw.physicalcpu`
-[ "${CPU_NUM}" = "" ] && CPU_NUM=2
-CPU_NUM=$((CPU_NUM/2))
+[[ ${CPU_NUM} -ge 2  ]] && CPU_NUM=$((CPU_NUM/2))
+
 projects='bolt;clang;clang-tools-extra;libclc;lld;lldb;mlir;polly;flang'
 runtimes='libunwind;libcxxabi;pstl;libcxx;compiler-rt;openmp'
 
@@ -45,7 +45,7 @@ sed -i'.bak' -E 's/set(DARWIN_osx_BUILTIN_MIN_VER 10.5)/set(DARWIN_osx_BUILTIN_M
 sed -i'.bak' -E 's/set(DARWIN_ios_BUILTIN_MIN_VER 6.0)/set(DARWIN_ios_BUILTIN_MIN_VER 9.0)/g' \
     ./compiler-rt/cmake/builtin-config-ix.cmake
 
-"${deps_prefix}/bin/cmake" -S llvm -B build -G Ninja \
+"${deps_prefix}/bin/cmake" -S llvm -B cmake-build.noindex -G Ninja \
     -DLLVM_PARALLEL_LINK_JOBS=1 -DLLVM_PARALLEL_COMPILE_JOBS=${CPU_NUM} \
     -DCMAKE_PREFIX_PATH="${deps_prefix}" \
     -DCMAKE_IGNORE_PREFIX_PATH="/usr/local;/opt/local" \
@@ -77,7 +77,7 @@ sed -i'.bak' -E 's/set(DARWIN_ios_BUILTIN_MIN_VER 6.0)/set(DARWIN_ios_BUILTIN_MI
 
 [ -d "${install_dir}" ] && rm -rf "${install_dir}"
 
-"${deps_prefix}/bin/ninja" -C build -j ${CPU_NUM} install install-xcode-toolchain
+"${deps_prefix}/bin/ninja" -C cmake-build.noindex -j ${CPU_NUM} install install-xcode-toolchain
 popd
 
 py3fwk=Library/Frameworks/Python3.framework

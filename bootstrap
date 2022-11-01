@@ -25,14 +25,14 @@ pushd cmake
 ./build-cmake.sh
 popd
 
+pushd re2c
+./build-re2c.sh
+popd
+
 export PATH=${install_prefix}/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin
 
 pushd ninja
 ./build-ninja.sh
-popd
-
-pushd re2c
-./build-re2c.sh
 popd
 
 pushd swig
