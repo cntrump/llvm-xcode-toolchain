@@ -20,7 +20,6 @@ install_dir="${install_prefix}/releases/${ver}"
 [ ! -d "${install_prefix}/releases" ] && mkdir -p "${install_prefix}/releases"
 
 pushd llvm-project
-lldb/scripts/macos-setup-codesign.sh
 
 # https://llvm.org/docs/CMake.html
 # to avoid OOMs or going into swap, permit only one link job per 15GB of RAM available on a 32GB machine,
@@ -28,8 +27,13 @@ lldb/scripts/macos-setup-codesign.sh
 CPU_NUM=`sysctl -n hw.physicalcpu`
 [[ ${CPU_NUM} -ge 2  ]] && CPU_NUM=$((CPU_NUM/2))
 
-projects='bolt;clang;clang-tools-extra;libclc;lld;lldb;mlir;polly;flang'
+projects='clang;clang-tools-extra;lld;polly'
 runtimes='libunwind;libcxxabi;pstl;libcxx;compiler-rt;openmp'
+
+if [[ $major -eq 12 ]]; then
+  sed -i'.bak' -E 's/#include "llvm\/ADT\/Twine.h"/#include "llvm\/ADT\/Twine.h"\n#include <atomic>/g' \
+      ./clang-tools-extra/clangd/support/Threading.h
+fi
 
 # oneTBB-2021.5.0/include/oneapi/tbb/version.h: #define TBB_INTERFACE_VERSION 12050
 
@@ -83,21 +87,6 @@ sed -i'.bak' -E 's/set(DARWIN_ios_BUILTIN_MIN_VER 6.0)/set(DARWIN_ios_BUILTIN_MI
 
 "${deps_prefix}/bin/ninja" -C cmake-build.noindex -j ${CPU_NUM} install install-xcode-toolchain
 popd
-
-py3fwk=Library/Frameworks/Python3.framework
-xcode_dev=/Applications/Xcode.app/Contents/Developer
-cmdline_dev=/Library/Developer/CommandLineTools
-
-if [ -d ${xcode_dev} ]; then
-  py3fwk=${xcode_dev}/${py3fwk}
-elif [ -d ${cmdline_dev} ]; then
-  py3fwk=${cmdline_dev}/${py3fwk}
-fi
-
-if [ -d ${py3fwk} ]; then
-  cp -a ${py3fwk} "${install_dir}/lib"
-  cp -a ${py3fwk} "${install_dir}/Toolchains/LLVM${ver}.xctoolchain/usr/lib"
-fi
 
 ./archive.sh "${install_dir}" --exclude=Toolchains -cJvf ../clang+llvm-${ver}-universal-apple-darwin.tar.xz &
 ./archive.sh "${install_dir}/Toolchains" -cJvf ../../LLVM-${ver}-universal.xctoolchain.tar.xz &
