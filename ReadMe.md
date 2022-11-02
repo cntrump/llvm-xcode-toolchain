@@ -6,7 +6,7 @@ archs: `arm64`, `x86_64`
 
 requried macOS version: `10.13` and higher
 
-projects: `bolt;clang;clang-tools-extra;libclc;lld;lldb;mlir;polly;flang`
+projects: `clang;clang-tools-extra;lld;polly`
 
 runtimes: `libunwind;libcxxabi;pstl;libcxx;compiler-rt;openmp`
 
