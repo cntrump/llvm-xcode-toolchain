@@ -13,7 +13,8 @@ trap 'rm -rf "${path}/Python-${ver}"' INT TERM HUP EXIT
 tar -xvf Python-${ver}.tar.xz
 
 pushd Python-${ver}
-./configure --enable-universalsdk --with-universal-archs=universal2 --enable-optimizations
+./configure --prefix="${install_prefix}" --without-gcc --without-static-libpython --enable-shared \
+            --enable-universalsdk --with-universal-archs=universal2 --enable-optimizations
 make -j
 make install
 popd
