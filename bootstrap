@@ -17,6 +17,10 @@ if [[ -d "${install_prefix}" ]]; then
   rm -rf "${install_prefix}"
 fi
 
+pushd python3
+./build-python3.sh
+popd
+
 common_flags="-arch arm64 -arch x86_64 -mmacosx-version-min=10.9"
 
 export CC="xcrun --toolchain ${XCTOOLCHAIN} --sdk macosx clang"
