@@ -30,7 +30,7 @@ lldb/scripts/macos-setup-codesign.sh
 CPU_NUM=`sysctl -n hw.physicalcpu`
 [[ ${CPU_NUM} -ge 2  ]] && CPU_NUM=$((CPU_NUM/2))
 
-projects='clang;clang-tools-extra;cross-project-tests;libc;libclc;lld;lldb;mlir;polly'
+projects='clang;clang-tools-extra;libclc;lld;lldb;mlir;polly'
 extra_projects='flang'
 runtimes='libunwind;libcxxabi;pstl;libcxx;compiler-rt;openmp'
 
