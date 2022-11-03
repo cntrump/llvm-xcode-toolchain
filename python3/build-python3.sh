@@ -6,15 +6,17 @@ ver=3.11.0
 
 pushd "$(dirname ${0})"
 path=$(pwd)
-trap 'rm -rf "${path}/Python-${ver}"' INT TERM HUP EXIT
+#trap 'rm -rf "${path}/Python-${ver}"' INT TERM HUP EXIT
 
 [ -d Python-${ver} ] && rm -rf Python-${ver}
 
 tar -xvf Python-${ver}.tar.xz
 
 pushd Python-${ver}
-./configure --prefix="${install_prefix}" --without-gcc --without-static-libpython --enable-shared \
-            --enable-universalsdk --with-universal-archs=universal2 --enable-optimizations
+./configure --prefix="${install_prefix}" --without-static-libpython --enable-shared \
+            --enable-universalsdk --with-universal-archs=universal2 --enable-optimizations \
+            LDFLAGS="-Wl,-rpath,@executable_path/../lib"
+
 make -j
 make install
 popd

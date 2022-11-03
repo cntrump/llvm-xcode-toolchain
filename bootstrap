@@ -17,20 +17,20 @@ if [[ -d "${install_prefix}" ]]; then
   rm -rf "${install_prefix}"
 fi
 
-pushd python3
-./build-python3.sh
-popd
-
 common_flags="-arch arm64 -arch x86_64 -mmacosx-version-min=10.9"
 
 export CC="xcrun --toolchain ${XCTOOLCHAIN} --sdk macosx clang"
 export CXX="xcrun --toolchain ${XCTOOLCHAIN} --sdk macosx clang++"
-export CPP="xcrun --toolchain ${XCTOOLCHAIN} --sdk macosx cpp"
+
 export CFLAGS="${common_flags} -std=gnu11"
 export CXXFLAGS="${common_flags} -std=gnu++14"
-export LDFLAGS="-mmacosx-version-min=10.9"
+export LDFLAGS="-mmacosx-version-min=10.9 -Wl,-rpath,@executable_path/../lib"
 
 export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin
+
+pushd python3
+./build-python3.sh
+popd
 
 pushd swig
 ./build-swig.sh
@@ -50,14 +50,14 @@ popd
 
 export -n CC
 export -n CXX
-export -n CPP
+
 export -n CFLAGS
 export -n CXXFLAGS
 export -n LDFLAGS
 
 unset CC
 unset CXX
-unset CPP
+
 unset CFLAGS
 unset CXXFLAGS
 unset LDFLAGS
