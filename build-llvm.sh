@@ -21,6 +21,9 @@ install_dir="${install_prefix}/releases/${ver}"
 
 pushd llvm-project
 
+## setup codesign for lldb
+lldb/scripts/macos-setup-codesign.sh
+
 # https://llvm.org/docs/CMake.html
 # to avoid OOMs or going into swap, permit only one link job per 15GB of RAM available on a 32GB machine,
 # specify -G Ninja -DLLVM_PARALLEL_LINK_JOBS=2.
@@ -64,13 +67,13 @@ sed -i'.bak' -E 's/set(DARWIN_ios_BUILTIN_MIN_VER 6.0)/set(DARWIN_ios_BUILTIN_MI
     -DCMAKE_ASM_COMPILER=$(xcrun --toolchain ${XCTOOLCHAIN} --find clang) \
     -DCMAKE_C_COMPILER=$(xcrun --toolchain ${XCTOOLCHAIN} --find clang) \
     -DCMAKE_CXX_COMPILER=$(xcrun --toolchain ${XCTOOLCHAIN} --find clang++) \
-    -DPython3_EXECUTABLE=$(xcrun --toolchain ${XCTOOLCHAIN} --find python3) \
+    -DPython3_EXECUTABLE="${deps_prefix}/bin/python3" \
     -DCURSES_NEED_NCURSES=ON \
     -DLLDB_ENABLE_LIBEDIT=ON \
     -DLLDB_ENABLE_CURSES=ON \
     -DLLDB_ENABLE_LIBXML2=ON \
     -DLLDB_ENABLE_PYTHON=ON \
-    -DLLDB_USE_SYSTEM_DEBUGSERVER=ON \
+    -DLLDB_USE_SYSTEM_DEBUGSERVER=OFF \
     -DPSTL_PARALLEL_BACKEND=tbb \
     -DTBB_INTERFACE_VERSION=12050 \
     -DLLVM_INCLUDE_BENCHMARKS=OFF \
@@ -87,6 +90,18 @@ sed -i'.bak' -E 's/set(DARWIN_ios_BUILTIN_MIN_VER 6.0)/set(DARWIN_ios_BUILTIN_MI
 
 "${deps_prefix}/bin/ninja" -C cmake-build.noindex -j ${CPU_NUM} install install-xcode-toolchain
 popd
+
+python3_version=($("${deps_prefix}/bin/python3" --version))
+python3_version=${python3_version[2]}
+python3_version=(${python3_version//\./ })
+python3_dylib="libpython${python3_version[0]}.${python3_version[1]}.dylib"
+python3_dylib_path="${deps_prefix}/lib/${python3_dylib}"
+
+cp -a "${python3_dylib_path}" "${install_dir}/lib"
+cp -a "${python3_dylib_path}" "${install_dir}/Toolchains/LLVM${ver}.xctoolchain/usr/lib"
+
+install_name_tool -change "${python3_dylib_path}" @rpath/${python3_dylib} "${install_dir}/lib/liblldb.dylib"
+install_name_tool -change "${python3_dylib_path}" @rpath/${python3_dylib} "${install_dir}/Toolchains/LLVM${ver}.xctoolchain/usr/lib/liblldb.dylib"
 
 ./archive.sh "${install_dir}" --exclude=Toolchains -cJvf ../clang+llvm-${ver}-universal-apple-darwin.tar.xz &
 ./archive.sh "${install_dir}/Toolchains" -cJvf ../../LLVM-${ver}-universal.xctoolchain.tar.xz &
