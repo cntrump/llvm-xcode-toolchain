@@ -195,3 +195,27 @@ Build clang toolchain:
 ## BYW
 
 Since LLVM 15, pre-built arm64 binaries is available in the [Official Releases Page](https://github.com/llvm/llvm-project/releases).
+
+If you using lldb built by llvm.org, `liblldb.dylib` link Python with absolute path:
+
+```
+clang+llvm-15.0.3-arm64-apple-darwin21.0 % otool -L lib/liblldb.15.0.3.dylib
+lib/liblldb.15.0.3.dylib:
+	@rpath/liblldb.15.0.3.dylib (compatibility version 0.0.0, current version 15.0.3)
+	/usr/lib/libcompression.dylib (compatibility version 1.0.0, current version 1.0.0)
+	/opt/homebrew/opt/python@3.10/Frameworks/Python.framework/Versions/3.10/Python (compatibility version 3.10.0, current version 3.10.0)
+	/usr/lib/libncurses.5.4.dylib (compatibility version 5.4.0, current version 5.4.0)
+	/usr/lib/libform.5.4.dylib (compatibility version 5.4.0, current version 5.4.0)
+	/usr/lib/libpanel.5.4.dylib (compatibility version 5.4.0, current version 5.4.0)
+	/usr/lib/libxml2.2.dylib (compatibility version 10.0.0, current version 10.9.0)
+	/usr/lib/libedit.3.dylib (compatibility version 2.0.0, current version 3.0.0)
+	/usr/lib/liblzma.5.dylib (compatibility version 6.0.0, current version 6.3.0)
+	/System/Library/Frameworks/Foundation.framework/Versions/C/Foundation (compatibility version 300.0.0, current version 1858.112.0)
+	/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation (compatibility version 150.0.0, current version 1858.112.0)
+	/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices (compatibility version 1.0.0, current version 1141.1.0)
+	/System/Library/Frameworks/Security.framework/Versions/A/Security (compatibility version 1.0.0, current version 60158.100.133)
+	/usr/lib/libz.1.dylib (compatibility version 1.0.0, current version 1.2.11)
+	/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1311.100.3)
+	/usr/lib/libc++.1.dylib (compatibility version 1.0.0, current version 1300.23.0)
+	/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)
+```
