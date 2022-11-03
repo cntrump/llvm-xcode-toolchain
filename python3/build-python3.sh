@@ -6,7 +6,7 @@ ver=3.11.0
 
 pushd "$(dirname ${0})"
 path=$(pwd)
-#trap 'rm -rf "${path}/Python-${ver}"' INT TERM HUP EXIT
+trap 'rm -rf "${path}/Python-${ver}"' INT TERM HUP EXIT
 
 [ -d Python-${ver} ] && rm -rf Python-${ver}
 
