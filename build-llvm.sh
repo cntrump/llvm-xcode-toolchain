@@ -30,8 +30,13 @@ lldb/scripts/macos-setup-codesign.sh
 CPU_NUM=`sysctl -n hw.physicalcpu`
 [[ ${CPU_NUM} -ge 2  ]] && CPU_NUM=$((CPU_NUM/2))
 
-projects='clang;clang-tools-extra;lld;polly'
+projects='clang;clang-tools-extra;cross-project-tests;libc;libclc;lld;lldb;mlir;polly'
+extra_projects='flang'
 runtimes='libunwind;libcxxabi;pstl;libcxx;compiler-rt;openmp'
+
+if [[ $major -ge 14 ]]; then
+  projects="bolt;${projects}"
+fi
 
 if [[ $major -eq 12 ]]; then
   sed -i'.bak' -E 's/#include "llvm\/ADT\/Twine.h"/#include "llvm\/ADT\/Twine.h"\n#include <atomic>/g' \
@@ -84,7 +89,7 @@ sed -i'.bak' -E 's/set(DARWIN_ios_BUILTIN_MIN_VER 6.0)/set(DARWIN_ios_BUILTIN_MI
     -DLLVM_ENABLE_RTTI=ON \
     -DLLVM_ENABLE_EH=ON \
     -DLLVM_ENABLE_TERMINFO=ON \
-    -DLLVM_ENABLE_PROJECTS="${projects};${runtimes}"
+    -DLLVM_ENABLE_PROJECTS="${projects};${extra_projects};${runtimes}"
 
 [ -d "${install_dir}" ] && rm -rf "${install_dir}"
 

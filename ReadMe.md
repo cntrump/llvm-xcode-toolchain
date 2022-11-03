@@ -6,9 +6,9 @@ archs: `arm64`, `x86_64`
 
 requried macOS version: `10.13` and higher
 
-projects: `clang;clang-tools-extra;lld;polly`
-
-runtimes: `libunwind;libcxxabi;pstl;libcxx;compiler-rt;openmp`
+- projects: `clang;clang-tools-extra;cross-project-tests;libc;libclc;lld;lldb;mlir;polly`
+- extra_projects: `flang`
+- runtimes: `libunwind;libcxxabi;pstl;libcxx;compiler-rt;openmp`
 
 latest release: [LLVM Xcode Toolchain](https://github.com/cntrump/llvm-xcode-toolchain/releases)
 
