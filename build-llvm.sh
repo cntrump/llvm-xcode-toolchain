@@ -91,17 +91,7 @@ sed -i'.bak' -E 's/set(DARWIN_ios_BUILTIN_MIN_VER 6.0)/set(DARWIN_ios_BUILTIN_MI
 "${deps_prefix}/bin/ninja" -C cmake-build.noindex -j ${CPU_NUM} install install-xcode-toolchain
 popd
 
-python3_version=($("${deps_prefix}/bin/python3" --version))
-python3_version=${python3_version[2]}
-python3_version=(${python3_version//\./ })
-python3_dylib="libpython${python3_version[0]}.${python3_version[1]}.dylib"
-python3_dylib_path="${deps_prefix}/lib/${python3_dylib}"
-
-cp -a "${python3_dylib_path}" "${install_dir}/lib"
-cp -a "${python3_dylib_path}" "${install_dir}/Toolchains/LLVM${ver}.xctoolchain/usr/lib"
-
-install_name_tool -change "${python3_dylib_path}" @rpath/${python3_dylib} "${install_dir}/lib/liblldb.dylib"
-install_name_tool -change "${python3_dylib_path}" @rpath/${python3_dylib} "${install_dir}/Toolchains/LLVM${ver}.xctoolchain/usr/lib/liblldb.dylib"
+./patch_python3_dylib_rpath.sh ${ver} "${install_dir}"
 
 ./archive.sh "${install_dir}" --exclude=Toolchains -cJvf ../clang+llvm-${ver}-universal-apple-darwin.tar.xz &
 ./archive.sh "${install_dir}/Toolchains" -cJvf ../../LLVM-${ver}-universal.xctoolchain.tar.xz &
