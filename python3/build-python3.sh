@@ -21,6 +21,8 @@ make -j
 make install
 popd
 
+rm -rf "${path}/Python-${ver}"
+
 ver=(${ver//\./ })
 python3_dylib="libpython${ver[0]}.${ver[1]}.dylib"
 python3_dylib_path="${install_prefix}/lib/${python3_dylib}"
