@@ -2,22 +2,22 @@
 
 set -eux
 
-ver=3.23.4
+ver=3.31.5
 
 pushd "$(dirname ${0})"
 path=$(pwd)
-trap 'rm -rf "${path}/CMake-${ver}"' INT TERM HUP EXIT
+trap 'rm -rf "${path}/cmake-${ver}"' INT TERM HUP EXIT
 
-[ -d CMake-${ver} ] && rm -rf CMake-${ver}
+[ -d cmake-${ver} ] && rm -rf cmake-${ver}
 
-tar -xvf CMake-${ver}.tar.xz
+tar -xvf cmake-${ver}.tar.gz
 
-pushd CMake-${ver}
+pushd cmake-${ver}
 
 CPU_NUM=`sysctl -n hw.physicalcpu`
 [[ ${CPU_NUM} -ge 2  ]] && CPU_NUM=$((CPU_NUM/2))
 
-./bootstrap --prefix="${install_prefix}" --parallel=${CPU_NUM}
+./bootstrap --prefix="${install_prefix}" --parallel=${CPU_NUM} --system-curl
 make -j ${CPU_NUM}
 make install
 popd

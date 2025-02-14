@@ -40,6 +40,10 @@ pushd ncurses
 ./build-ncurses.sh
 popd
 
+pushd readline
+./build-readline.sh
+popd
+
 pushd libedit
 ./build-libedit.sh
 popd

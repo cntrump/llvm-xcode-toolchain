@@ -16,5 +16,7 @@ fi
 pushd llvm-project
 git clean -fdx
 git reset --hard origin/main
+git fetch --force
+git fetch --tags --force
 git reset --hard tags/llvmorg-${version}
 popd

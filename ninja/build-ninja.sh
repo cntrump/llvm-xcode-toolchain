@@ -2,7 +2,7 @@
 
 set -eux
 
-ver=1.11.1
+ver=1.12.1
 
 pushd "$(dirname ${0})"
 path=$(pwd)
@@ -10,7 +10,7 @@ trap 'rm -rf "${path}/ninja-${ver}"' INT TERM HUP EXIT
 
 [ -d ninja-${ver} ] && rm -rf ninja-${ver}
 
-tar -xvf ninja-${ver}.tar.xz
+tar -xvf ninja-${ver}.tar.gz
 
 pushd ninja-${ver}
 
